@@ -41,12 +41,9 @@
 
             <p>{{ req.description }}</p>
 
-            <div class="card-actions">
-                <a href="{{ url_for('main.join_request', request_id=req.id) }}"
-                   class="secondary-btn">
-                   Join Session
-                </a>
-            </div>
+            <form method="POST" action="{{ url_for('main.join_request', request_id=req.id) }}">
+                <button type="submit" class="secondary-btn">Join Session</button>
+            </form>
         </div>
         {% endfor %}
     {% else %}

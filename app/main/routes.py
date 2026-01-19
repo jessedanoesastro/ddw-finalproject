@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import current_user, login_user, logout_user, login_required
 
 from datetime import datetime
@@ -88,12 +88,12 @@ def profile():
 def create_request():
     if request.method == "POST":
         subject = request.form["subject"]
-        description = request.form.get("description", "")
+        description = request.form["description"]
         location = request.form["location"]
 
-        # verwacht input name="starts_at" type="datetime-local"
-        starts_at_str = request.form["starts_at"]
-        starts_at = datetime.fromisoformat(starts_at_str)
+        date_str = request.form["date"]
+        time_str = request.form["time"]
+        starts_at = datetime.fromisoformat(f"{date_str}T{time_str}")
 
         s = Session(
             subject=subject,
@@ -104,7 +104,29 @@ def create_request():
         )
         db.session.add(s)
         db.session.commit()
-        flash("Study session posted!")
+        flash("Study session created!")
         return redirect(url_for("main.dashboard"))
 
     return render_template("create_appointment.html")
+
+@bp.route("/sessions/<int:request_id>/join", methods=["POST", "GET"])
+@login_required
+def join_request(request_id):
+    session_obj = db.session.get(Session, request_id)
+    if session_obj is None:
+        abort(404)
+
+    # optional: block disabled users
+    if getattr(current_user, "disabled", False):
+        flash("Your account is disabled.")
+        return redirect(url_for("main.dashboard"))
+
+    # avoid duplicate join
+    if current_user in session_obj.participants:
+        flash("You already joined this session.")
+        return redirect(url_for("main.dashboard"))
+
+    session_obj.participants.append(current_user)
+    db.session.commit()
+    flash("You joined the session!")
+    return redirect(url_for("main.dashboard"))
