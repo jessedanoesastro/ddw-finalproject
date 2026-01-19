@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | User Management</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+</head>
+
+<body>
+
+    <!-- Admin Navbar -->
+    <div class="navbar admin-nav">
+        <h2>🛠 Study Buddy Admin</h2>
+        <div class="nav-links">
+            <a href="{{ url_for('admin_dashboard') }}">Overview</a>
+            <a href="{{ url_for('admin_sessions') }}">Sessions</a>
+            <a href="{{ url_for('admin_users') }}">Users</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="header">
+            <h3>User Management</h3>
+        </div>
+
+        {% if users %}
+        {% for user in users %}
+        <div class="card admin-user-card">
+
+            <div class="user-header">
+                <h4>{{ user.name }}</h4>
+
+                {% if not user.is_active %}
+                <span class="status-tag inactive">Disabled</span>
+                {% elif user.is_admin %}
+                <span class="status-tag admin">Admin</span>
+                {% else %}
+                <span class="status-tag active">Active</span>
+                {% endif %}
+            </div>
+
+            <div class="meta">
+                📧 {{ user.email }} <br>
+                🎓 {{ user.study }} ({{ user.faculty }}) <br>
+                🎯 Graduation Year: {{ user.grad_year }}
+            </div>
+
+            <div class="card-actions">
+
+                <!-- Disable / Enable -->
+                {% if user.is_active %}
+                <form method="POST" action="{{ url_for('admin_disable_user', user_id=user.id) }}"
+                    style="display:inline;"
+                    onsubmit="return confirm('Disable this user? They will not be able to log in.');">
+                    <button type="submit" class="danger-btn">
+                        Disable
+                    </button>
+                </form>
+                {% else %}
+                <form method="POST" action="{{ url_for('admin_enable_user', user_id=user.id) }}"
+                    style="display:inline;">
+                    <button type="submit" class="post-btn">
+                        Enable
+                    </button>
+                </form>
+                {% endif %}
+
+                <!-- Delete -->
+                <form method="POST" action="{{ url_for('admin_delete_user', user_id=user.id) }}" style="display:inline;"
+                    onsubmit="return confirm('Permanently delete this user? This action cannot be undone.');">
+                    <button type="submit" class="danger-btn delete-btn">
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty">
+            No users found.
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Study Buddy</title>
     <link rel="stylesheet" href="../../css/style.css">
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
 </head>
+
 <body>
 
-<!-- Navbar -->
-<div class="navbar">
-    <h2>📚 Study Buddy</h2>
-    <a href="{{ url_for('login') }}">Login</a>
-</div>
-
-<!-- Main -->
-<div class="container">
-
-    <div class="card intro-card">
-        <h3>Welcome to Study Buddy 👋</h3>
-
-        <p>
-            Study Buddy helps students connect with each other to
-            organize study sessions, share knowledge, and stay motivated.
-        </p>
-
-        <p>
-            Whether you're preparing for exams or working on assignments,
-            find classmates with similar goals and study together.
-        </p>
-
-        <div class="intro-actions">
-            <a href="{{ url_for('login') }}" class="post-btn">
-                Get Started
-            </a>
-        </div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>📚 Study Buddy</h2>
+        <a href="{{ url_for('login') }}">Login</a>
     </div>
 
-</div>
+    <!-- Main -->
+    <div class="container">
+
+        <div class="card intro-card">
+            <h3>Welcome to Study Buddy 👋</h3>
+
+            <p>
+                Study Buddy helps students connect with each other to
+                organize study sessions, share knowledge, and stay motivated.
+            </p>
+
+            <p>
+                Whether you're preparing for exams or working on assignments,
+                find classmates with similar goals and study together.
+            </p>
+
+            <div class="intro-actions">
+                <a href="{{ url_for('login') }}" class="post-btn">
+                    Get Started
+                </a>
+            </div>
+        </div>
+
+    </div>
 
 </body>
+
 </html>
