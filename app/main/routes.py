@@ -24,7 +24,7 @@ def login():
         user = db.session.scalar(sa.select(User).where(User.email == form.email.data))
 
         if user is None:
-            form.email.errors.append("No account found with this email.")
+            form.email.errors.append("Email not recognized.")
             return render_template("login.html", form=form)
 
         if getattr(user, "disabled", False):
@@ -39,6 +39,7 @@ def login():
         return redirect(url_for("main.home"))
 
     return render_template("login.html", form=form)
+
 
 
 @bp.route("/logout")
