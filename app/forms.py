@@ -19,40 +19,39 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField("Full Name", validators=[DataRequired(), Length(max=80)])
+    name = StringField("Full Name", validators=[DataRequired(), Length(min=2, max=120)])
     email = StringField("Email", validators=[DataRequired(), Email(), Length(max=120)])
 
     age = IntegerField("Age", validators=[DataRequired(), NumberRange(min=16, max=100)])
-    gender = SelectField(
-        "Gender",
-        choices=[
-            ("female", "Female"),
-            ("male", "Male"),
-            ("nonbinary", "Non-binary"),
-            ("prefer_not_say", "Prefer not to say"),
-        ],
-        validators=[DataRequired()],
-    )
+    gender = SelectField("Gender", choices=[
+        ("", "Select gender"),
+        ("female", "Female"),
+        ("male", "Male"),
+        ("nonbinary", "Non-binary"),
+        ("prefer_not_say", "Prefer not to say"),
+    ], validators=[DataRequired()])
 
     study = StringField("Program / Major", validators=[DataRequired(), Length(max=120)])
-    faculty = SelectField(
-        "Faculty",
-        choices=[
-            ("science", "Science"),
-            ("engineering", "Engineering"),
-            ("arts", "Arts & Humanities"),
-            ("business", "Business"),
-            ("health", "Health Sciences"),
-            ("law", "Law"),
-            ("education", "Education"),
-        ],
-        validators=[DataRequired()],
-    )
+    faculty = SelectField("Faculty", choices=[
+        ("", "Select faculty"),
+        ("science", "Science"),
+        ("engineering", "Engineering"),
+        ("arts", "Arts & Humanities"),
+        ("business", "Business"),
+        ("health", "Health Sciences"),
+        ("law", "Law"),
+        ("education", "Education"),
+    ], validators=[DataRequired()])
 
     grad_year = IntegerField("Graduation Year", validators=[DataRequired(), NumberRange(min=2024, max=2035)])
 
     password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
-    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password", message="Passwords must match.")])
+
+    def validate_email(self, email):
+        existing = db.session.scalar(sa.select(User).where(User.email == email.data))
+        if existing is not None:
+            raise ValidationError("This email is already registered.")
 
     submit = SubmitField("Register")
 

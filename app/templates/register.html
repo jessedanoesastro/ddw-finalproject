@@ -21,89 +21,99 @@
         <h3>Create an Account</h3>
     </div>
 
-    <div class="card">
-        <form method="POST" action="{{ url_for('main.register') }}">
-            {{ form.hidden_tag() }}
+<form method="POST" action="{{ url_for('main.register') }}">
+  {{ form.hidden_tag() }}
 
-            <!-- Basic info -->
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required value="{{ request.form.get('name','') }}">
+    {% for error in form.name.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required value="{{ request.form.get('email','') }}">
+    {% for error in form.email.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <!-- Additional info -->
-            <div class="form-group">
-                <label for="age">Age</label>
-                <input type="number" id="age" name="age" min="16" max="100" required>
-            </div>
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" min="16" max="100" required value="{{ request.form.get('age','') }}">
+    {% for error in form.age.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="">Select gender</option>
-                    <option value="female">Female</option>
-                    <option value="male">Male</option>
-                    <option value="nonbinary">Non-binary</option>
-                    <option value="prefer_not_say">Prefer not to say</option>
-                </select>
-            </div>
+  <div class="form-group">
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender" required>
+      <option value="">Select gender</option>
+      <option value="female" {% if request.form.get('gender')=='female' %}selected{% endif %}>Female</option>
+      <option value="male" {% if request.form.get('gender')=='male' %}selected{% endif %}>Male</option>
+      <option value="nonbinary" {% if request.form.get('gender')=='nonbinary' %}selected{% endif %}>Non-binary</option>
+      <option value="prefer_not_say" {% if request.form.get('gender')=='prefer_not_say' %}selected{% endif %}>Prefer not to say</option>
+    </select>
+    {% for error in form.gender.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="study">Program / Major</label>
-                <input type="text" id="study" name="study" placeholder="e.g. Computer Science" required>
-            </div>
+  <div class="form-group">
+    <label for="study">Program / Major</label>
+    <input type="text" id="study" name="study" required value="{{ request.form.get('study','') }}">
+    {% for error in form.study.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="faculty">Faculty</label>
-                <select id="faculty" name="faculty" required>
-                    <option value="">Select faculty</option>
-                    <option value="science">Science</option>
-                    <option value="engineering">Engineering</option>
-                    <option value="arts">Arts & Humanities</option>
-                    <option value="business">Business</option>
-                    <option value="health">Health Sciences</option>
-                    <option value="law">Law</option>
-                    <option value="education">Education</option>
-                </select>
-            </div>
+  <div class="form-group">
+    <label for="faculty">Faculty</label>
+    <select id="faculty" name="faculty" required>
+      <option value="">Select faculty</option>
+      <option value="science" {% if request.form.get('faculty')=='science' %}selected{% endif %}>Science</option>
+      <option value="engineering" {% if request.form.get('faculty')=='engineering' %}selected{% endif %}>Engineering</option>
+      <option value="arts" {% if request.form.get('faculty')=='arts' %}selected{% endif %}>Arts & Humanities</option>
+      <option value="business" {% if request.form.get('faculty')=='business' %}selected{% endif %}>Business</option>
+      <option value="health" {% if request.form.get('faculty')=='health' %}selected{% endif %}>Health Sciences</option>
+      <option value="law" {% if request.form.get('faculty')=='law' %}selected{% endif %}>Law</option>
+      <option value="education" {% if request.form.get('faculty')=='education' %}selected{% endif %}>Education</option>
+    </select>
+    {% for error in form.faculty.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="grad_year">Graduation Year</label>
-                <input type="number" id="grad_year" name="grad_year" min="2024" max="2035" required>
-            </div>
+  <div class="form-group">
+    <label for="grad_year">Graduation Year</label>
+    <input type="number" id="grad_year" name="grad_year" min="2024" max="2035" required value="{{ request.form.get('grad_year','') }}">
+    {% for error in form.grad_year.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <!-- Password -->
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            {% for error in form.password.errors %}
-            <p style="color:red;">{{ error }}</p>
-            {% endfor %}
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+    {% for error in form.password.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <div class="form-group">
-                <label for="password2">Repeat Password</label>
-                <input type="password" id="password2" name="password2" required>
-            </div>
+  <div class="form-group">
+    <label for="password2">Repeat Password</label>
+    <input type="password" id="password2" name="password2" required>
+    {% for error in form.password2.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </div>
 
-            <button type="submit" class="post-btn">
-                Register
-            </button>
+  <button type="submit" class="post-btn">Register</button>
+</form>
 
-        </form>
-
-        <p class="form-footer">
-            Already have an account?
-            <a href="{{ url_for('main.login') }}">Log in</a>
-        </p>
-    </div>
-
-</div>
 
 </body>
 </html>

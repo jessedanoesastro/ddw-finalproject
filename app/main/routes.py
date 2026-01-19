@@ -19,15 +19,21 @@ def login():
         return redirect(url_for("main.home"))
 
     form = LoginForm()
+
     if form.validate_on_submit():
         user = db.session.scalar(sa.select(User).where(User.email == form.email.data))
-        if user is None or not user.check_password(form.password.data):
-            flash("Invalid credentials")
-            return redirect(url_for("main.login"))
+
+        if user is None:
+            form.email.errors.append("No account found with this email.")
+            return render_template("login.html", form=form)
 
         if getattr(user, "disabled", False):
-            flash("Your account has been disabled by an admin.")
-            return redirect(url_for("main.login"))
+            form.email.errors.append("This account has been disabled by an admin.")
+            return render_template("login.html", form=form)
+
+        if not user.check_password(form.password.data):
+            form.password.errors.append("Incorrect password.")
+            return render_template("login.html", form=form)
 
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for("main.home"))
