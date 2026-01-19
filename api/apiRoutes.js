@@ -1,5 +1,12 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router();  // <-- MOET hier bovenaan
+
+// Test route
+router.get("/", (req, res) => {
+  res.send("API works");
+});
+
+// User & appointment routes
 const { users, schedules } = require("../models/dataStore");
 
 router.get("/users", (req, res) => {
@@ -13,4 +20,6 @@ router.get("/appointments", (req, res) => {
   res.json(schedules[0].getAllAppointments());
 });
 
-module.exports = router;
+module.exports = router;  // <-- ÉÉN keer exporteren
+
+
