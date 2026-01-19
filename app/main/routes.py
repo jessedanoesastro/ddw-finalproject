@@ -110,7 +110,7 @@ def create_request():
         flash("Study session created!")
         return redirect(url_for("main.dashboard"))
 
-    return render_template("create_appointment.html")
+    return render_template("create_session.html")
 
 @bp.route("/sessions/<int:request_id>/join", methods=["POST", "GET"])
 @login_required
