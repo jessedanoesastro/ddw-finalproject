@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Study Buddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>📚 Study Buddy</h2>
+    <div class="nav-links">
+        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('main.profile') }}">My Profile</a>
+        <a href="{{ url_for('main.logout') }}">Logout</a>
+    </div>
+</div>
+
+<!-- Main -->
+<div class="container">
+
+    <div class="header">
+        <h3>Available Study Sessions</h3>
+        <a href="{{ url_for('main.create_request') }}" class="post-btn">
+            + Post Study Request
+        </a>
+    </div>
+
+    {% if study_requests %}
+        {% for req in study_requests %}
+        <div class="card">
+            <h4>{{ req.subject }}</h4>
+
+            <div class="meta">
+                📅 {{ req.starts_at.strftime('%Y-%m-%d') }}
+                ⏰ {{ req.starts_at.strftime('%H:%M') }} <br>
+                👤 Posted by {{ req.created_by.name }}
+                📍 {{ req.location }}
+            </div>
+
+            <p>{{ req.description }}</p>
+
+            <div class="card-actions">
+                <a href="{{ url_for('main.join_request', request_id=req.id) }}"
+                   class="secondary-btn">
+                   Join Session
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            No study sessions yet. Be the first to post one!
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
