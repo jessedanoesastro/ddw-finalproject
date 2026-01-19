@@ -50,7 +50,7 @@ body {
     padding: 20px;
     border-radius: 6px;
     margin-top: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .card h4 {
@@ -67,4 +67,208 @@ body {
     margin-top: 30px;
     text-align: center;
     color: #777;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.form-footer {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: white;
+}
+
+.card-actions {
+    margin-top: 1rem;
+}
+
+.secondary-btn {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.profile-card p {
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.tag {
+    font-size: 0.8rem;
+    background: #e0e0e0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+}
+
+.admin-nav {
+    background-color: #2c3e50;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    color: #2c3e50;
+}
+
+.admin-session-card {
+    position: relative;
+}
+
+.remove-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.admin-user-card {
+    position: relative;
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    color: white;
+}
+
+.status-tag.active {
+    background-color: #2ecc71;
+}
+
+.status-tag.inactive {
+    background-color: #95a5a6;
+}
+
+.status-tag.admin {
+    background-color: #9b59b6;
+}
+
+.delete-btn {
+    background-color: #c0392b;
+    margin-left: 0.5rem;
+}
+
+.delete-btn:hover {
+    background-color: #922b21;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.session-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.session-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+}
+
+.admin-session-card {
+    position: relative;
+}
+
+.remove-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.participant-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.participant-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #eee;
 }
