@@ -9,6 +9,9 @@ from app.models import User, Session
 from app.forms import LoginForm, RegistrationForm
 from app.main import bp
 
+def can_manage_session(session_obj):
+    return (session_obj.created_by_id == current_user.id) or getattr(current_user, "is_admin", False)
+
 @bp.route("/")
 def home():
     return render_template("home.html")
@@ -130,3 +133,51 @@ def join_request(request_id):
     db.session.commit()
     flash("You joined the session!")
     return redirect(url_for("main.dashboard"))
+
+@bp.route("/sessions/<int:session_id>/delete", methods=["POST"])
+@login_required
+def delete_session(session_id):
+    session_obj = db.session.get(Session, session_id)
+    if session_obj is None:
+        abort(404)
+
+    if not can_manage_session(session_obj):
+        abort(403)
+
+    db.session.delete(session_obj)
+    db.session.commit()
+    flash("Session deleted.")
+    return redirect(url_for("main.dashboard"))
+
+@bp.route("/sessions/<int:session_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_session(session_id):
+    session_obj = db.session.get(Session, session_id)
+    if session_obj is None:
+        abort(404)
+
+    if not can_manage_session(session_obj):
+        abort(403)
+
+    if request.method == "POST":
+        session_obj.subject = request.form["subject"]
+        session_obj.description = request.form["description"]
+        session_obj.location = request.form["location"]
+
+        date_str = request.form["date"]   # YYYY-MM-DD
+        time_str = request.form["time"]   # HH:MM
+        session_obj.starts_at = datetime.fromisoformat(f"{date_str}T{time_str}")
+
+        db.session.commit()
+        flash("Session updated.")
+        return redirect(url_for("main.dashboard"))
+
+    # prefill date/time in the form
+    date_value = session_obj.starts_at.strftime("%Y-%m-%d")
+    time_value = session_obj.starts_at.strftime("%H:%M")
+    return render_template(
+        "edit_session.html",
+        s=session_obj,
+        date_value=date_value,
+        time_value=time_value
+    )

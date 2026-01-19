@@ -44,6 +44,22 @@
             <form method="POST" action="{{ url_for('main.join_request', request_id=req.id) }}">
                 <button type="submit" class="secondary-btn">Join Session</button>
             </form>
+
+            {% if req.created_by_id == current_user.id or current_user.is_admin %}
+                <div class="card-actions">
+                    <a href="{{ url_for('main.edit_session', session_id=req.id) }}" class="secondary-btn">
+                        Edit
+                    </a>
+
+                    <form method="POST"
+                        action="{{ url_for('main.delete_session', session_id=req.id) }}"
+                        style="display:inline;">
+                        <button type="submit" class="secondary-btn">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
         </div>
         {% endfor %}
     {% else %}
