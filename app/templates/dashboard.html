@@ -10,6 +10,22 @@
     </a>
 </div>
 
+<form method="get" class="filter-form">
+    <input type="text" name="subject" placeholder="Subject"
+           value="{{ filters.subject }}">
+    <input type="text" name="faculty" placeholder="Faculty"
+           value="{{ filters.faculty }}">
+    <input type="text" name="study" placeholder="Study"
+           value="{{ filters.study }}">
+    <input type="number" name="grad_year" placeholder="Grad Year"
+           value="{{ filters.grad_year }}">
+    <input type="date" name="date" placeholder="Date"
+           value="{{ filters.date }}">
+    <button type="submit" class="post-btn">Filter</button>
+    <a href="{{ url_for('main.dashboard') }}" class="secondary-btn">Reset</a>
+</form>
+
+
 {% if study_requests %}
     {% for req in study_requests %}
     <div class="card">

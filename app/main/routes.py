@@ -75,25 +75,6 @@ def register():
 
     return render_template("register.html", form=form)
 
-@bp.route("/dashboard")
-@login_required
-def dashboard():
-    sessions = db.session.scalars(sa.select(Session)).all()
-    return render_template("dashboard.html", study_requests=sessions)
-
-@bp.route("/profile")
-@login_required
-def profile():
-    return render_template("profile.html", user=current_user)
-
-@bp.route("/profile/<int:user_id>")
-@login_required
-def user_profile(user_id):
-    user = db.session.get(User, user_id)
-    if user is None:
-        abort(404)
-
-    return render_template("profile.html", user=user)
 
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
@@ -244,4 +225,63 @@ def leave_request(request_id):
     db.session.commit()
     flash("Left session successfully!")
     return redirect(url_for("main.dashboard"))
+
+@bp.route("/profile")
+@login_required
+def profile():
+    # user = current_user wordt automatisch gebruikt
+    return render_template("profile.html", user=current_user)
+
+@bp.route("/profile/<int:user_id>")
+@login_required
+def user_profile(user_id):
+    user = db.session.get(User, user_id)
+    if user is None:
+        abort(404)
+    return render_template("profile.html", user=user)
+
+
+
+@bp.route("/dashboard")
+@login_required
+def dashboard():
+    # Start query voor alle sessions
+    query = sa.select(Session).join(User, Session.created_by_id == User.id)
+
+    # Haal filters uit query params
+    subject = request.args.get("subject", "").strip()
+    faculty = request.args.get("faculty", "").strip()
+    study = request.args.get("study", "").strip()
+    grad_year = request.args.get("grad_year", "").strip()
+    date = request.args.get("date", "").strip()
+
+    # Filteren op session properties
+    if subject:
+        query = query.where(Session.subject.ilike(f"%{subject}%"))
+    if date:
+        try:
+            date_obj = datetime.fromisoformat(date)
+            query = query.where(Session.starts_at >= date_obj)
+        except ValueError:
+            pass  # negeer ongeldige datum
+
+    # Filteren op user properties (creator)
+    if faculty:
+        query = query.where(User.faculty.ilike(f"%{faculty}%"))
+    if study:
+        query = query.where(User.study.ilike(f"%{study}%"))
+    if grad_year:
+        try:
+            grad_year_int = int(grad_year)
+            query = query.where(User.grad_year == grad_year_int)
+        except ValueError:
+            pass
+
+    sessions = db.session.scalars(query).all()
+
+    return render_template("dashboard.html", study_requests=sessions,
+                           filters={"subject": subject, "faculty": faculty,
+                                    "study": study, "grad_year": grad_year,
+                                    "date": date})
+
 
