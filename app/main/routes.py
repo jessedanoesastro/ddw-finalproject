@@ -112,12 +112,16 @@ def create_request():
 
     return render_template("create_session.html")
 
-@bp.route("/sessions/<int:request_id>/join", methods=["POST", "GET"])
+@bp.route("/sessions/<int:request_id>/join", methods=["POST"])
 @login_required
 def join_request(request_id):
     session_obj = db.session.get(Session, request_id)
     if session_obj is None:
         abort(404)
+
+    if session_obj.created_by_id == current_user.id:
+        flash("You can’t join your own session.")
+        return redirect(url_for("main.dashboard"))
 
     # optional: block disabled users
     if getattr(current_user, "disabled", False):
@@ -211,3 +215,24 @@ def delete_user(user_id):
             flash(f"User {user_obj.name} deleted.")
 
     return redirect(url_for("main.admin_panel"))
+
+@bp.route("/sessions/<int:request_id>/leave", methods=["POST"])
+@login_required
+def leave_request(request_id):
+    session_obj = db.session.get(Session, request_id)
+    if session_obj is None:
+        abort(404)
+
+    if session_obj.created_by_id == current_user.id:
+        flash("You can’t leave your own session.")
+        return redirect(url_for("main.dashboard"))
+
+    if current_user not in session_obj.participants:
+        flash("You are not a participant of this session.")
+        return redirect(url_for("main.dashboard"))
+
+    session_obj.participants.remove(current_user)
+    db.session.commit()
+    flash("Left session successfully!")
+    return redirect(url_for("main.dashboard"))
+

@@ -32,9 +32,32 @@
         </div>
     </div>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-wrap">
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+
+    <script>
+        setTimeout(() => {
+            const flashes = document.querySelectorAll('.flash');
+            flashes.forEach(flash => {
+                flash.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                flash.style.opacity = '0';
+                flash.style.transform = 'translateY(-5px)';
+                setTimeout(() => flash.remove(), 500);
+            });
+        }, 5000);
+    </script>
+
 
 </body>
 </html>

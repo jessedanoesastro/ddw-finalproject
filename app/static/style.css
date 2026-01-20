@@ -272,3 +272,109 @@ body {
     padding: 0.4rem 0;
     border-bottom: 1px solid #eee;
 }
+
+
+.participants-row {
+    margin-top: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.participants-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.participants-pills {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.participant-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: #eef2f6;     
+    border: 1px solid #d6dde6; 
+    color: #333;
+    font-size: 0.85rem;
+}
+
+.participants-empty {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.card-actions {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: #fff;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+
+.secondary-btn:hover {
+    background-color: #f7f7f7;
+}
+
+.secondary-btn:active {
+    transform: translateY(1px);
+}
+
+.secondary-btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.join-btn {
+    border-color: #bcd7f0;
+    color: #1f5f93;
+}
+
+.delete-outline {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+.delete-outline:hover {
+    background-color: #fdeceb;
+}
+
+.flash-wrap {
+    padding: 0 30px;
+    margin-top: 15px;
+}
+
+.flash {
+    display: inline-block;
+    background: white;
+    border: 1px solid #d6dde6;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
+}
+
+.leave-btn {
+    border-color: #e67e22;
+    color: #e67e22;
+}
+
+.leave-btn:hover {
+    background-color: #fff4e8;
+}

@@ -24,24 +24,60 @@
 
         <p>{{ req.description }}</p>
 
+        <div class="participants-row">
+            <span class="participants-label">Participants:</span>
+
+            <div class="participants-pills">
+                {% if req.participants %}
+                    {% for p in req.participants %}
+                        <span class="participant-pill">{{ p.name }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span class="participants-empty">No participants yet</span>
+                {% endif %}
+            </div>
+        </div>
+
         <div class="card-actions">
-            <form method="POST" action="{{ url_for('main.join_request', request_id=req.id) }}" style="display:inline;">
-                <button type="submit" class="secondary-btn">Join Session</button>
-            </form>
+            {% if req.created_by_id == current_user.id %}
+                <button class="secondary-btn" disabled>Your session</button>
+
+            {% elif current_user in req.participants %}
+                <form method="POST"
+                      action="{{ url_for('main.leave_request', request_id=req.id) }}"
+                      style="display:inline;">
+                    <button type="submit" class="secondary-btn leave-btn">
+                        Leave session
+                    </button>
+                </form>
+
+            {% else %}
+                <form method="POST"
+                      action="{{ url_for('main.join_request', request_id=req.id) }}"
+                      style="display:inline;">
+                    <button type="submit" class="secondary-btn join-btn">
+                        Join session
+                    </button>
+                </form>
+            {% endif %}
 
             {% if req.created_by_id == current_user.id or current_user.is_admin %}
-                <a href="{{ url_for('main.edit_session', session_id=req.id) }}" class="secondary-btn">
+                <a href="{{ url_for('main.edit_session', session_id=req.id) }}"
+                   class="secondary-btn">
                     Edit
                 </a>
 
-                <form method="POST" action="{{ url_for('main.delete_session', session_id=req.id) }}" style="display:inline;">
-                    <button type="submit" class="secondary-btn" style="color: red; border-color: red;">
+                <form method="POST"
+                      action="{{ url_for('main.delete_session', session_id=req.id) }}"
+                      onsubmit="return confirm('Are you sure you want to delete this study session?')"
+                      style="display:inline;">
+                    <button type="submit" class="secondary-btn delete-outline">
                         Delete
                     </button>
                 </form>
             {% endif %}
-        </div>
-    </div>
+        </div> <!-- ✅ close card-actions -->
+    </div> <!-- ✅ close card -->
     {% endfor %}
 {% else %}
     <div class="empty">
