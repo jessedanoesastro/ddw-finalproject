@@ -86,6 +86,15 @@ def dashboard():
 def profile():
     return render_template("profile.html", user=current_user)
 
+@bp.route("/profile/<int:user_id>")
+@login_required
+def user_profile(user_id):
+    user = db.session.get(User, user_id)
+    if user is None:
+        abort(404)
+
+    return render_template("profile.html", user=user)
+
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
 def create_request():

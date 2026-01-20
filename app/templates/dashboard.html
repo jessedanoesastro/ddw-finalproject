@@ -30,7 +30,10 @@
             <div class="participants-pills">
                 {% if req.participants %}
                     {% for p in req.participants %}
-                        <span class="participant-pill">{{ p.name }}</span>
+                        <a href="{{ url_for('main.user_profile', user_id=p.id) }}"
+                           class="participant-pill participant-link">
+                            {{ p.name }}
+                        </a>
                     {% endfor %}
                 {% else %}
                     <span class="participants-empty">No participants yet</span>

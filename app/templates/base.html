@@ -46,6 +46,7 @@
         {% block content %}{% endblock %}
     </div>
 
+    <!-- optional: auto-hide flash after 10 seconds -->
     <script>
         setTimeout(() => {
             const flashes = document.querySelectorAll('.flash');
@@ -55,9 +56,8 @@
                 flash.style.transform = 'translateY(-5px)';
                 setTimeout(() => flash.remove(), 500);
             });
-        }, 5000);
+        }, 10000);
     </script>
-
 
 </body>
 </html>
