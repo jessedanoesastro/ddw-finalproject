@@ -8,45 +8,28 @@
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <a href="{{ url_for('main.home') }}" class="nav-logo">📚 Study Buddy</a>
+    <div class="navbar">
+        <h2>📚 Study Buddy</h2>
+
         <div class="nav-links">
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('main.profile') }}">Profile</a>
-
-                {% if current_user.role == 'admin' %}
-                    <a href="{{ url_for('main.userlist') }}" style="color: #ffcc00;">Admin Panel</a>
-                {% endif %}
-
+                <a href="{{ url_for('main.profile') }}">My Profile</a>
                 <a href="{{ url_for('main.logout') }}">Logout</a>
             {% else %}
-                <a href="{{ url_for('main.login') }}">Login</a>
-                <a href="{{ url_for('main.register') }}">Register</a>
+                {% if request.endpoint == 'main.login' or request.endpoint == 'main.register' %}
+                    <a href="{{ url_for('main.home') }}">Home</a>
+                {% else %}
+                    <a href="{{ url_for('main.login') }}">Login</a>
+                    <a href="{{ url_for('main.register') }}">Register</a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
-</nav>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
     <div class="container">
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
+        {% block content %}{% endblock %}
     </div>
-  {% endif %}
-{% endwith %}
-
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-
-<footer class="footer">
-    <p>&copy; 2026 Group 9 - Study Buddy Groningen</p>
-</footer>
 
 </body>
 </html>

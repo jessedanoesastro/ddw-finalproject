@@ -1,73 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login | Study Buddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
-</head>
-<body>
+{% extends "base.html" %}
 
-<!-- Navbar -->
-<div class="navbar">
-    <h2>📚 Study Buddy</h2>
-    <a href="{{ url_for('main.home') }}">Home</a>
+{% block title %}Login | Study Buddy{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h3>Login</h3>
 </div>
 
-<!-- Main -->
-<div class="container">
+<div class="card">
+    <form method="POST" action="{{ url_for('main.login') }}">
+        {{ form.hidden_tag() }}
 
-    <div class="header">
-        <h3>Login</h3>
-    </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Enter your email"
+                value="{{ request.form.get('email','') }}"
+                required
+            >
+            {% for error in form.email.errors %}
+            <p class="error" style="color: red;">{{ error }}</p>
+            {% endfor %}
+        </div>
 
-    <div class="card">
-        <form method="POST" action="{{ url_for('main.login') }}">
-            {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Enter your password"
+                required
+            >
+            {% for error in form.password.errors %}
+            <p class="error" style="color: red;">{{ error }}</p>
+            {% endfor %}
+        </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Enter your email"
-                    value="{{ request.form.get('email','') }}"
-                    required
-                >
-                {% for error in form.email.errors %}
-                <p class="error">{{ error }}</p>
-                {% endfor %}
-            </div>
+        <button type="submit" class="post-btn">
+            Login
+        </button>
 
+    </form>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    placeholder="Enter your password"
-                    required
-                >
-                {% for error in form.password.errors %}
-                <p class="error">{{ error }}</p>
-                {% endfor %}
-            </div>
-
-            <button type="submit" class="post-btn">
-                Login
-            </button>
-
-        </form>
-
-        <p class="form-footer">
-            Don’t have an account?
-            <a href="{{ url_for('main.register') }}">Sign up</a>
-        </p>
-    </div>
-
+    <p class="form-footer">
+        Don’t have an account?
+        <a href="{{ url_for('main.register') }}">Sign up</a>
+    </p>
 </div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,44 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Profile | Study Buddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
-</head>
-<body>
+{% extends "base.html" %}
 
-<!-- Navbar -->
-<div class="navbar">
-    <h2>📚 Study Buddy</h2>
-    <div class="nav-links">
-        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('main.logout') }}">Logout</a>
-    </div>
+{% block title %}My Profile | Study Buddy{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h3>My Profile</h3>
 </div>
 
-<div class="container">
-
-    <div class="header">
-        <h3>My Profile</h3>
-    </div>
-
-    <div class="card profile-card">
-
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Age:</strong> {{ user.age }}</p>
-        <p><strong>Gender:</strong> {{ user.gender }}</p>
-        <p><strong>Program:</strong> {{ user.study }}</p>
-        <p><strong>Faculty:</strong> {{ user.faculty }}</p>
-        <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
-
-        <!-- Future feature -->
-        <!-- <a href="{{ url_for('edit_profile') }}" class="post-btn">Edit Profile</a> -->
+<div class="card profile-card">
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Age:</strong> {{ user.age }}</p>
+    <p><strong>Gender:</strong> {{ user.gender }}</p>
+    <p><strong>Program:</strong> {{ user.study }}</p>
+    <p><strong>Faculty:</strong> {{ user.faculty }}</p>
+    <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
 
     </div>
-
-</div>
-
-</body>
-</html>
+{% endblock %}

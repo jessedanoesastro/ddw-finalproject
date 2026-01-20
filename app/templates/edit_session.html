@@ -1,56 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Session | Study Buddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
 
-<div class="navbar">
-    <h2>📚 Study Buddy</h2>
-    <div class="nav-links">
-        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('main.logout') }}">Logout</a>
-    </div>
+{% block title %}Edit Session | Study Buddy{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h3>Edit Study Session</h3>
 </div>
 
-<div class="container">
-    <div class="header">
-        <h3>Edit Study Session</h3>
-    </div>
+<div class="card">
+    <form method="POST">
+        <div class="form-group">
+            <label>Subject</label>
+            <input type="text" name="subject" value="{{ s.subject }}" required>
+        </div>
 
-    <div class="card">
-        <form method="POST">
-            <div class="form-group">
-                <label>Subject</label>
-                <input type="text" name="subject" value="{{ s.subject }}" required>
-            </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="4" required>{{ s.description }}</textarea>
+        </div>
 
-            <div class="form-group">
-                <label>Description</label>
-                <textarea name="description" rows="4" required>{{ s.description }}</textarea>
-            </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" value="{{ date_value }}" required>
+        </div>
 
-            <div class="form-group">
-                <label>Date</label>
-                <input type="date" name="date" value="{{ date_value }}" required>
-            </div>
+        <div class="form-group">
+            <label>Time</label>
+            <input type="time" name="time" value="{{ time_value }}" required>
+        </div>
 
-            <div class="form-group">
-                <label>Time</label>
-                <input type="time" name="time" value="{{ time_value }}" required>
-            </div>
+        <div class="form-group">
+            <label>Location</label>
+            <input type="text" name="location" value="{{ s.location }}" required>
+        </div>
 
-            <div class="form-group">
-                <label>Location</label>
-                <input type="text" name="location" value="{{ s.location }}" required>
-            </div>
-
-            <button type="submit" class="post-btn">Save</button>
-        </form>
-    </div>
+        <button type="submit" class="post-btn">Save Changes</button>
+    </form>
 </div>
-
-</body>
-</html>
+{% endblock %}
