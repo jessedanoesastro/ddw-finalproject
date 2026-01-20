@@ -181,3 +181,33 @@ def edit_session(session_id):
         date_value=date_value,
         time_value=time_value
     )
+
+
+@bp.route("/admin")
+@login_required
+def admin_panel():
+    if not getattr(current_user, "is_admin", False):
+        abort(403)
+
+    all_users = db.session.scalars(sa.select(User)).all()
+    all_sessions = db.session.scalars(sa.select(Session)).all()
+
+    return render_template("admindashboard.html", users=all_users, sessions=all_sessions)
+
+
+@bp.route("/admin/user/<int:user_id>/delete", methods=["POST"])
+@login_required
+def delete_user(user_id):
+    if not getattr(current_user, "is_admin", False):
+        abort(403)
+
+    user_obj = db.session.get(User, user_id)
+    if user_obj:
+        if user_obj.id == current_user.id:
+            flash("You cannot delete your own admin account!")
+        else:
+            db.session.delete(user_obj)
+            db.session.commit()
+            flash(f"User {user_obj.name} deleted.")
+
+    return redirect(url_for("main.admin_panel"))
