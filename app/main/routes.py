@@ -39,7 +39,7 @@ def login():
             return render_template("login.html", form=form)
 
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for("main.home"))
+        return redirect(url_for("main.dashboard"))
 
     return render_template("login.html", form=form)
 
