@@ -114,12 +114,12 @@ def join_request(request_id):
         flash("You can’t join your own session.")
         return redirect(url_for("main.dashboard"))
 
-    # optional: block disabled users
+    
     if getattr(current_user, "disabled", False):
         flash("Your account is disabled.")
         return redirect(url_for("main.dashboard"))
 
-    # avoid duplicate join
+    
     if current_user in session_obj.participants:
         flash("You already joined this session.")
         return redirect(url_for("main.dashboard"))
@@ -167,7 +167,7 @@ def edit_session(session_id):
         flash("Session updated.")
         return redirect(url_for("main.dashboard"))
 
-    # prefill date/time in the form
+    
     date_value = session_obj.starts_at.strftime("%Y-%m-%d")
     time_value = session_obj.starts_at.strftime("%H:%M")
     return render_template(
@@ -230,7 +230,7 @@ def leave_request(request_id):
 @bp.route("/profile")
 @login_required
 def profile():
-    # user = current_user wordt automatisch gebruikt
+    
     return render_template("profile.html", user=current_user)
 
 @bp.route("/profile/<int:user_id>")
@@ -246,17 +246,17 @@ def user_profile(user_id):
 @bp.route("/dashboard")
 @login_required
 def dashboard():
-    # Start query voor alle sessions
+    
     query = sa.select(Session).join(User, Session.created_by_id == User.id)
 
-    # Haal filters uit query params
+    
     subject = request.args.get("subject", "").strip()
     faculty = request.args.get("faculty", "").strip()
     study = request.args.get("study", "").strip()
     grad_year = request.args.get("grad_year", "").strip()
     date = request.args.get("date", "").strip()
 
-    # Filteren op session properties
+    
     if subject:
         query = query.where(Session.subject.ilike(f"%{subject}%"))
     if date:
@@ -264,9 +264,9 @@ def dashboard():
             date_obj = datetime.fromisoformat(date)
             query = query.where(Session.starts_at >= date_obj)
         except ValueError:
-            pass  # negeer ongeldige datum
+            pass  
 
-    # Filteren op user properties (creator)
+    
     if faculty:
         query = query.where(User.faculty.ilike(f"%{faculty}%"))
     if study:
@@ -290,9 +290,9 @@ def dashboard():
 def admin_dashboard():
     search_query = request.args.get('search', '')
     
-    # Base query for users
+    
     if search_query:
-        # Filters users where name or email contains the search string (case-insensitive)
+    
         users = User.query.filter(
             or_(
                 User.name.ilike(f'%{search_query}%'),
@@ -302,7 +302,7 @@ def admin_dashboard():
     else:
         users = User.query.all()
 
-    # Still need all sessions for the bottom part of the dashboard
+
     sessions = Session.query.all()
     
     return render_template('admindashboard.html', users=users, sessions=sessions)

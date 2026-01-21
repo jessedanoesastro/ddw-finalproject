@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     disabled = db.Column(db.Boolean, default=False, nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
-    # sessions created by this user
+
     created_sessions = db.relationship("Session", back_populates="created_by", cascade="all, delete-orphan")
 
     def set_password(self, password: str) -> None:
