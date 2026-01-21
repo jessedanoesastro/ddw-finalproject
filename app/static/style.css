@@ -186,7 +186,10 @@ body {
     height: 32px;
     cursor: pointer;
     font-size: 1rem;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .danger-btn:hover {
@@ -299,8 +302,8 @@ body {
     align-items: center;
     padding: 0.25rem 0.6rem;
     border-radius: 999px;
-    background: #eef2f6;     
-    border: 1px solid #d6dde6; 
+    background: #eef2f6;
+    border: 1px solid #d6dde6;
     color: #333;
     font-size: 0.85rem;
 }
@@ -377,4 +380,103 @@ body {
 
 .leave-btn:hover {
     background-color: #fff4e8;
+}
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-form input {
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    flex: 1;
+    min-width: 120px;
+}
+
+.filter-form .secondary-btn {
+    padding: 0.6rem 1rem;
+    height: auto;
+}
+
+.filter-form input[type="date"] {
+    color: #757575;
+}
+
+.filter-form input[type="date"]:focus {
+    color: black;
+}
+
+.search-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #d6dde6;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    /* Matches your .post-btn color */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background-color: #2c3e50;
+    /* Matches your .stat-number color */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+    background-color: #1a252f;
+}
+
+.clear-link {
+    text-decoration: none;
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.clear-link:hover {
+    color: #e74c3c;
+}
+
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    font-family: inherit;
+}
+
+.form-group input[type="date"]:required:invalid,
+.form-group input[type="time"]:required:invalid {
+    color: #757575;
+}
+
+.form-group input[type="date"]:focus,
+.form-group input[type="date"]:valid,
+.form-group input[type="time"]:focus,
+.form-group input[type="time"]:valid {
+    color: black;
 }

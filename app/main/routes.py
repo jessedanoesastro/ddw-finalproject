@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+from sqlalchemy import or_
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -141,7 +142,7 @@ def delete_session(session_id):
     db.session.delete(session_obj)
     db.session.commit()
     flash("Session deleted.")
-    return redirect(url_for("main.dashboard"))
+    return redirect(url_for('main.admin_dashboard'))
 
 @bp.route("/sessions/<int:session_id>/edit", methods=["GET", "POST"])
 @login_required
@@ -284,4 +285,24 @@ def dashboard():
                                     "study": study, "grad_year": grad_year,
                                     "date": date})
 
+@bp.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    search_query = request.args.get('search', '')
+    
+    # Base query for users
+    if search_query:
+        # Filters users where name or email contains the search string (case-insensitive)
+        users = User.query.filter(
+            or_(
+                User.name.ilike(f'%{search_query}%'),
+                User.email.ilike(f'%{search_query}%')
+            )
+        ).all()
+    else:
+        users = User.query.all()
 
+    # Still need all sessions for the bottom part of the dashboard
+    sessions = Session.query.all()
+    
+    return render_template('admindashboard.html', users=users, sessions=sessions)
