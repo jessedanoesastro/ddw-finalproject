@@ -142,7 +142,7 @@ def delete_session(session_id):
     db.session.delete(session_obj)
     db.session.commit()
     flash("Session deleted.")
-    return redirect(url_for('main.admin_dashboard'))
+    return redirect(url_for('main.dashboard'))
 
 @bp.route("/sessions/<int:session_id>/edit", methods=["GET", "POST"])
 @login_required
